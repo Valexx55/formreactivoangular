@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>Nuevo usuario</h1>
+  <form novalidate [formGroup]="formulario" (ngSubmit)="guardar(formulario.value, formulario.valid)">
+    <div class="form-group">
+      <label for="">Nombre</label>
+      <input type="text" class="form-control" formControlName="nombre">
+      <small [hidden]="formulario.controls.nombre.valid || (formulario.controls.nombre.pristine && !enviado)" class="text-danger">
+            El campo nombre debe tener al menos 5 caracteres
+      </small>
+      <!--<pre class="margin-20">{{formulario.controls.nombre.errors | json }}</pre>-->
+    </div>
+    <div class="form-group" formGroupName="direccion">
+      <label for="">Calle</label>
+      <input type="text" class="form-control" formControlName="calle">
+      <small [hidden]="formulario.controls.direccion.controls.calle.valid || (formulario.controls.direccion.controls.calle.pristine && !enviado)" class="text-danger">
+            Nombre calle obligatorio
+      </small>
+    </div>
+    <div class="form-group" formGroupName="direccion">
+      <label for="">Nº</label>
+      <input type="text" class="form-control" formControlName="numero">
+    </div>
+    <!--telefonos-->
+    <div formArrayName="telefonos">
+        <label>Teléfonos</label>
+        <button type="button" (click)="aniadirTelefono()">Agregar Telefono</button>
+        <ul>
+            <li class="form-group" *ngFor="let telf of formulario.controls.telefonos.controls; let i = index">
+              <input type="text" formControlName="{{i}}">
+              <button type="button" (click)="eliminaTelf(i)">Eliminar</button>
+            </li>
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-default">Enviar</button>
+    <button class="btn btn-default" type="button" (click)="limpiarFormulario()">Resetear</button>
+  </form>
+</div>
